@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.example.swplanetapi.domain.Planet;
 import com.example.swplanetapi.service.PlanetService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/planet")
 public class PlanetController {
@@ -31,6 +33,12 @@ public class PlanetController {
     public ResponseEntity<Planet> findByName(@PathVariable String name){
         return planetService.findByName(name).map( planet -> ResponseEntity.ok(planet))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Planet>> list(@RequestParam(required = false) String climate, @RequestParam(required = false) String terrain){
+        List<Planet> planets = planetService.list(terrain, climate);
+        return ResponseEntity.ok(planets);
     }
     
 }
