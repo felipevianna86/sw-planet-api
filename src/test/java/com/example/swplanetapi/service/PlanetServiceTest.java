@@ -16,8 +16,6 @@ import static com.example.swplanetapi.common.PlanetConstants.INVALID_PLANET;
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
 import static org.assertj.core.api.Assertions.assertThat;
 
-;
-
 @ExtendWith(MockitoExtension.class)
 public class PlanetServiceTest {
 
@@ -61,6 +59,27 @@ public class PlanetServiceTest {
         Mockito.when(planetRepository.findById(5L)).thenReturn(Optional.empty());
 
         Optional<Planet> planet = planetService.findById(5L);
+
+        assertThat(planet).isEmpty();
+    }
+
+    @Test
+    public void buscaPlanetaByNomeExistente(){
+
+        Mockito.when(planetRepository.findByName(PLANET.getName())).thenReturn(Optional.of(PLANET));
+
+        Optional<Planet> planet = planetService.findByName(PLANET.getName());
+
+        assertThat(planet).isNotEmpty();
+        assertThat(planet.get()).isEqualTo(PLANET);
+    }
+
+    @Test
+    public void buscaPlanetaByNomeInexistente(){
+        final String name = "teste";
+        Mockito.when(planetRepository.findByName(name)).thenReturn(Optional.empty());
+
+        Optional<Planet> planet = planetService.findByName(name);
 
         assertThat(planet).isEmpty();
     }

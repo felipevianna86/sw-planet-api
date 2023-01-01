@@ -26,5 +26,11 @@ public class PlanetController {
         return planetService.findById(id).map( planet -> ResponseEntity.ok(planet))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<Planet> findByName(@PathVariable String name){
+        return planetService.findByName(name).map( planet -> ResponseEntity.ok(planet))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
     
 }
