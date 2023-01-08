@@ -19,7 +19,7 @@ import java.util.Optional;
 
 import static com.example.swplanetapi.common.PlanetConstants.INVALID_PLANET;
 import static com.example.swplanetapi.common.PlanetConstants.PLANET;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class PlanetServiceTest {
@@ -115,6 +115,18 @@ public class PlanetServiceTest {
         List<Planet> list = planetService.list(PLANET.getTerrain(), PLANET.getClimate());
 
         assertThat(list).isEmpty();
+    }
+
+    @Test
+    public void removePlanetaENaoRetornaQualquerException(){
+        assertThatCode(() -> planetService.remove(1L)).doesNotThrowAnyException();
+    }
+
+    @Test
+    public void removePlanetaComIdInexistenteERetornaException(){
+        Mockito.doThrow(new RuntimeException()).when(planetRepository).deleteById(99L);
+
+        assertThatThrownBy(() -> planetService.remove(99L)).isInstanceOf(RuntimeException.class);
     }
 
 }
