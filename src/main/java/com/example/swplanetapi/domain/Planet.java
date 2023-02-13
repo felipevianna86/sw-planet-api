@@ -1,10 +1,7 @@
 package com.example.swplanetapi.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -15,10 +12,22 @@ public class Planet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(nullable = false)
+    @NotEmpty
     private String name;
+
+    @Column(nullable = false)
+    @NotEmpty
     private String climate;
+
+    @Column(nullable = false)
+    @NotEmpty
     private String terrain;
+
+    public Planet(){
+
+    }
 
     public Planet(String climate, String terrain){
         this.climate = climate;
